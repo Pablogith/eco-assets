@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from "@angular/core";
+import { AuthService } from "@core/services/auth/auth.service";
 import { menuOverlay, triggerDropdownMenu, menu } from "@shared/layout/animations";
 
 @Component({
@@ -8,6 +9,8 @@ import { menuOverlay, triggerDropdownMenu, menu } from "@shared/layout/animation
   animations: [triggerDropdownMenu, menuOverlay, menu]
 })
 export class LayoutComponent {
+  private authService = inject(AuthService);
+
   public profileDropdownIsOpen = false;
   public mobileMenuIsOpen = false;
 
@@ -21,5 +24,9 @@ export class LayoutComponent {
 
   public openMobileMenu(): void {
     this.mobileMenuIsOpen = true;
+  }
+
+  public signOut(): void {
+    this.authService.doLogout();
   }
 }
