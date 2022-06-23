@@ -4,6 +4,8 @@ import { AppComponent } from './app.component';
 import { LayoutComponent } from "@shared/layout/layout.component";
 import { CoreModule } from "@core/core.module";
 import { CommonModule } from "@angular/common";
+import {StoreModule} from "@ngrx/store";
+import {authReducer} from "@store/reducers/auth.reducers";
 
 @NgModule({
   declarations: [
@@ -14,6 +16,9 @@ import { CommonModule } from "@angular/common";
     CommonModule,
     CoreModule,
     AppRoutingModule,
+    StoreModule.forRoot({
+      auth: authReducer
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
