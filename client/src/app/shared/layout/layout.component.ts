@@ -1,12 +1,16 @@
-import { Component, inject } from "@angular/core";
-import { AuthService } from "@core/services/auth/auth.service";
-import { menuOverlay, triggerDropdownMenu, menu } from "@shared/layout/animations";
+import { Component, inject } from '@angular/core';
+import { AuthService } from '@core/services';
+import {
+  menu,
+  menuOverlay,
+  triggerDropdownMenu,
+} from '@shared/layout/animations';
 
 @Component({
   selector: 'eac-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
-  animations: [triggerDropdownMenu, menuOverlay, menu]
+  animations: [triggerDropdownMenu, menuOverlay, menu],
 })
 export class LayoutComponent {
   private authService = inject(AuthService);
