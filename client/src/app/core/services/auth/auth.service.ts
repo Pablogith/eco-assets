@@ -29,7 +29,7 @@ export class AuthService {
 
   public signIn(user: any): Subscription {
     return this.http
-      .post<any>(`${this.API_ENDPOINT}/auth/login`, { user })
+      .post(`${this.API_ENDPOINT}/auth/login`, { user })
       .subscribe(
         (res: any) => {
           localStorage.setItem(this.ACCESS_TOKEN_KEY, res.access_token);
@@ -48,6 +48,11 @@ export class AuthService {
           this.store.dispatch(
             loginFailure({ errorMessage: err.error.message })
           );
+          const notification: Notification = {
+            message: err.error.message,
+            type: 'error',
+          };
+          this.notificationService.show(notification);
         }
       );
   }

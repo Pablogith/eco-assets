@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { CommonModule } from '@angular/common';
-import { AuthState } from '@store/models/auth';
-import { authFeatureKey } from '@store/reducers/auth.reducers';
-import { map, Observable } from 'rxjs';
 import { SharedModule } from '@shared/shared.module';
+import { select, Store } from '@ngrx/store';
+import { AuthState } from '@store/models/auth';
+import { map, Observable } from 'rxjs';
+import { authFeatureKey } from '@store/reducers/auth.reducers';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'eac-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss'],
+  selector: 'eac-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
   standalone: true,
   imports: [CommonModule, SharedModule],
 })
-export class HomePageComponent {
+export class ProfileComponent {
   public currentUserName$!: Observable<string>;
 
   constructor(private store: Store<AuthState>) {

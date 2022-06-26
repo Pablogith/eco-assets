@@ -34,6 +34,9 @@
               </label>
               <div class="mt-1">
                 <input
+                  [ngClass]="{
+                    'border-red-500': signInForm.get('email')?.invalid && signInForm.get('email')?.touched
+                  }"
                   formControlName="email"
                   id="email"
                   name="email"
@@ -42,6 +45,8 @@
                   required
                   class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
               </div>
+              <p *ngIf="signInForm.get('email')?.hasError('email') && signInForm.get('email')?.touched" class="mt-2 text-sm text-red-600">Your email is invalid.</p>
+              <p *ngIf="signInForm.get('email')?.hasError('required') && signInForm.get('email')?.touched" class="mt-2 text-sm text-red-600">Email is required.</p>
             </div>
 
             <div class="space-y-1">
@@ -52,6 +57,9 @@
               </label>
               <div class="mt-1">
                 <input
+                  [ngClass]="{
+                    'border-red-500': signInForm.get('password')?.invalid && signInForm.get('password')?.touched
+                  }"
                   formControlName="password"
                   id="password"
                   name="password"
@@ -60,6 +68,8 @@
                   required
                   class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
               </div>
+              <p *ngIf="signInForm.get('password')?.hasError('required') && signInForm.get('password')?.touched" class="mt-2 text-sm text-red-600">Password is required.</p>
+              <p *ngIf="signInForm.get('password')?.hasError('minlength') && signInForm.get('password')?.touched" class="mt-2 text-sm text-red-600">Password is too short.</p>
             </div>
 
             <div class="flex items-center justify-between">

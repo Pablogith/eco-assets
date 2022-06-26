@@ -15,6 +15,23 @@ const routes: Routes = [
         c => c.HomePageComponent
       ),
     canActivate: [AuthGuard],
+    title: 'Home',
+  },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('@pages/profile/profile.component').then(c => c.ProfileComponent),
+    canActivate: [AuthGuard],
+    title: 'Profile',
+  },
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('@pages/settings/settings.component').then(
+        c => c.SettingsComponent
+      ),
+    canActivate: [AuthGuard],
+    title: 'Settings',
   },
   {
     path: 'auth',
@@ -25,6 +42,7 @@ const routes: Routes = [
           import('@pages/sign-in/sign-in.component').then(
             c => c.SignInComponent
           ),
+        title: 'Sign In',
       },
       {
         path: 'sign-up',
@@ -32,6 +50,7 @@ const routes: Routes = [
           import('@pages/sign-up/sign-up.component').then(
             c => c.SignUpComponent
           ),
+        title: 'Sign Up',
       },
     ],
   },

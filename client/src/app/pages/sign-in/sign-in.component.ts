@@ -9,6 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '@core/services';
+import { CommonModule } from '@angular/common';
 
 interface SignInForm {
   email: FormControl<string> | any;
@@ -20,7 +21,7 @@ interface SignInForm {
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss'],
   standalone: true,
-  imports: [RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [RouterModule, FormsModule, ReactiveFormsModule, CommonModule],
 })
 export class SignInComponent implements OnInit {
   public signInForm!: FormGroup<SignInForm>;
@@ -37,5 +38,6 @@ export class SignInComponent implements OnInit {
 
   public onSubmit(): void {
     this.authService.signIn(this.signInForm.value);
+    this.signInForm.get('password')?.reset();
   }
 }

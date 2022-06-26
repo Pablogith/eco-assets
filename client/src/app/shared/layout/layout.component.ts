@@ -16,10 +16,16 @@ export class LayoutComponent {
   private authService = inject(AuthService);
 
   public profileDropdownIsOpen = false;
+  public notificationsDropdownIsOpen = false;
   public mobileMenuIsOpen = false;
+  public title = 'Dashboard';
 
   public toggleProfileDropdown(): void {
     this.profileDropdownIsOpen = !this.profileDropdownIsOpen;
+  }
+
+  public toggleNotificationsDropdown(): void {
+    this.notificationsDropdownIsOpen = !this.notificationsDropdownIsOpen;
   }
 
   public closeMobileMenu(): void {
