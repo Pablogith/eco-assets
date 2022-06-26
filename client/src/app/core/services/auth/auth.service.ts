@@ -1,10 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
-import { Router } from '@angular/router';
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, Subscription, throwError } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { loginFailure, loginSuccess, logout } from '@store/actions/auth.action';
@@ -12,49 +7,44 @@ import { AuthState } from '@store/models/auth';
 import { authFeatureKey } from '@store/reducers/auth.reducers';
 import { NotificationsService } from '@core/services';
 import { Notification } from '@core/models';
+import { BaseHttpService } from '@core/classes';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
-  private http = inject(HttpClient);
-  private router = inject(Router);
+export class AuthService extends BaseHttpService {
   private notificationService = inject(NotificationsService);
-
-  private API_ENDPOINT: string = 'http://localhost:3000';
   private ACCESS_TOKEN_KEY = 'access_token';
   private headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(private store: Store<AuthState>) {}
+  constructor(private store: Store<AuthState>) {
+    super();
+  }
 
   public signIn(user: any): Subscription {
-    return this.http
-      .post(`${this.API_ENDPOINT}/auth/login`, { user })
-      .subscribe(
-        (res: any) => {
-          localStorage.setItem(this.ACCESS_TOKEN_KEY, res.access_token);
-          this.getUserProfile(res.email).subscribe(user => {
-            this.store.dispatch(loginSuccess({ user: user }));
-            this.router.navigate(['home']);
+    return this.http.post(`${this.BASE_URL}auth/login`, { user }).subscribe(
+      (res: any) => {
+        localStorage.setItem(this.ACCESS_TOKEN_KEY, res.access_token);
+        this.getUserProfile(res.email).subscribe(user => {
+          this.store.dispatch(loginSuccess({ user: user }));
+          this.router.navigate(['home']);
 
-            const notification: Notification = {
-              message: 'Welcome back!',
-              type: 'success',
-            };
-            this.notificationService.show(notification);
-          });
-        },
-        err => {
-          this.store.dispatch(
-            loginFailure({ errorMessage: err.error.message })
-          );
           const notification: Notification = {
-            message: err.error.message,
-            type: 'error',
+            message: 'Welcome back!',
+            type: 'success',
           };
           this.notificationService.show(notification);
-        }
-      );
+        });
+      },
+      err => {
+        this.store.dispatch(loginFailure({ errorMessage: err.error.message }));
+        const notification: Notification = {
+          message: err.error.message,
+          type: 'error',
+        };
+        this.notificationService.show(notification);
+      }
+    );
   }
 
   public getToken(): string | null {
@@ -76,7 +66,7 @@ export class AuthService {
   }
 
   private getUserProfile(email: any): Observable<any> {
-    let api = `${this.API_ENDPOINT}/users/me?email=${email}`;
+    let api = `${this.BASE_URL}users/me?email=${email}`;
     return this.http.get(api, { headers: this.headers }).pipe(
       map(res => {
         return res || {};
