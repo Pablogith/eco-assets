@@ -1,0 +1,43 @@
+<tr>
+  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+    {{ battery.id }}
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+    {{ battery.location.city }}, {{ battery.location.country }}
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+    <span
+      *ngIf="battery.status; else unknownBatteryStatus"
+      [ngClass]="{
+        active: battery.status === 'active',
+        disabled: battery.status === 'disabled',
+        breaking: battery.status === 'breaking',
+        hold: battery.status === 'hold',
+        repairing: battery.status === 'repairing'
+      }"
+      class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
+      {{ battery.status | titlecase }}
+    </span>
+    <ng-template #unknownBatteryStatus>
+      <span
+        class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+        Unknown
+      </span>
+    </ng-template>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+    {{ battery.generating_power | number: '1.2-2' }}
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+    {{ battery.level | number: '1.2-2' }}/{{
+      battery.capacity | number: '1.2-2'
+    }}
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+    <button
+      (click)="openOverlay()"
+      class="text-indigo-600 hover:text-indigo-900">
+      Edit
+    </button>
+  </td>
+</tr>

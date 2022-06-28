@@ -1,4 +1,4 @@
-<eac-title title="Settings"></eac-title>
+<eac-title title="Batteries"></eac-title>
 <div>
   <div class="sm:hidden">
     <label for="tabs" class="sr-only">Select a tab</label>
@@ -6,21 +6,21 @@
       id="tabs"
       name="tabs"
       class="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
-      <option [selected]="currentTab === 'my-account'">My Account</option>
-      <option [selected]="currentTab === 'appearance'">Appearance</option>
-      <option [selected]="currentTab === 'billing'">Billing</option>
+      <option [selected]="currentTab === 'all-batteries'">All batteries</option>
+      <option [selected]="currentTab === 'active'">Active</option>
+      <option [selected]="currentTab === 'disabled'">Disabled</option>
     </select>
   </div>
   <div class="hidden sm:block">
     <div class="border-b border-gray-200">
       <nav class="-mb-px flex space-x-8" aria-label="Tabs">
         <button
-          (click)="setTab('my-account')"
+          (click)="setTab('all-batteries')"
           class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm transition"
-          [ngClass]="{ active: currentTab === 'my-account' }">
+          [ngClass]="{ active: currentTab === 'all-batteries' }">
           <svg
             class="text-gray-400 -ml-0.5 mr-2 h-5 w-5"
-            [ngClass]="{ active: currentTab === 'my-account' }"
+            [ngClass]="{ active: currentTab === 'all-batteries' }"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -30,16 +30,16 @@
               d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
               clip-rule="evenodd" />
           </svg>
-          <span>My Account</span>
+          <span>All batteries</span>
         </button>
 
         <button
-          (click)="setTab('appearance')"
+          (click)="setTab('active')"
           class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm transition"
-          [ngClass]="{ active: currentTab === 'appearance' }">
+          [ngClass]="{ active: currentTab === 'active' }">
           <svg
             class="text-gray-400 group-hover:text-gray-500 -ml-0.5 mr-2 h-5 w-5"
-            [ngClass]="{ active: currentTab === 'appearance' }"
+            [ngClass]="{ active: currentTab === 'active' }"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -49,16 +49,16 @@
               d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z"
               clip-rule="evenodd" />
           </svg>
-          <span>Appearance</span>
+          <span>Active</span>
         </button>
 
         <button
-          (click)="setTab('billing')"
+          (click)="setTab('disabled')"
           class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm transition"
-          [ngClass]="{ active: currentTab === 'billing' }">
+          [ngClass]="{ active: currentTab === 'disabled' }">
           <svg
             class="text-gray-400 group-hover:text-gray-500 -ml-0.5 mr-2 h-5 w-5"
-            [ngClass]="{ active: currentTab === 'billing' }"
+            [ngClass]="{ active: currentTab === 'disabled' }"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -69,22 +69,10 @@
               d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"
               clip-rule="evenodd" />
           </svg>
-          <span>Billing</span>
+          <span>Disabled</span>
         </button>
       </nav>
     </div>
   </div>
 </div>
-
-<div [ngSwitch]="currentTab">
-  <eac-settings-my-account
-    *ngSwitchCase="'my-account'"
-    [@enterTrigger]="'fadeIn'">
-  </eac-settings-my-account>
-  <eac-settings-appearance
-    *ngSwitchCase="'appearance'"
-    [@enterTrigger]="'fadeIn'">
-  </eac-settings-appearance>
-  <eac-settings-billing *ngSwitchCase="'billing'" [@enterTrigger]="'fadeIn'">
-  </eac-settings-billing>
-</div>
+<eac-battery-table></eac-battery-table>

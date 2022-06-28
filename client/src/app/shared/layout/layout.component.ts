@@ -1,10 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '@core/services';
+import { select, Store } from '@ngrx/store';
 import {
   menu,
   menuOverlay,
   triggerDropdownMenu,
 } from '@shared/layout/animations';
+import { AuthState } from '@store/models/auth';
+import { map, Observable } from 'rxjs';
+import { authFeatureKey } from '@store/reducers/auth.reducers';
 
 @Component({
   selector: 'eac-layout',
@@ -19,6 +23,15 @@ export class LayoutComponent {
   public notificationsDropdownIsOpen = false;
   public mobileMenuIsOpen = false;
   public title = 'Dashboard';
+  public currentUser$!: Observable<string>;
+
+  constructor(private store: Store<AuthState>) {
+    this.currentUser$ = this.store.pipe(
+      // @ts-ignore
+      select(authFeatureKey),
+      map((state: AuthState) => (state.user?.name ? state.user.name : 'Guest'))
+    );
+  }
 
   public toggleProfileDropdown(): void {
     this.profileDropdownIsOpen = !this.profileDropdownIsOpen;

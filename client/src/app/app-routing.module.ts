@@ -18,6 +18,33 @@ const routes: Routes = [
     title: 'Home',
   },
   {
+    path: 'analytics',
+    loadComponent: () =>
+      import('@pages/analytics/analytics.component').then(
+        c => c.AnalyticsComponent
+      ),
+    canActivate: [AuthGuard],
+    title: 'Analytics',
+  },
+  {
+    path: 'batteries',
+    loadComponent: () =>
+      import('@pages/batteries/batteries.component').then(
+        c => c.BatteriesComponent
+      ),
+    canActivate: [AuthGuard],
+    title: 'Batteries',
+  },
+  {
+    path: 'lighting',
+    loadComponent: () =>
+      import('@pages/lighting/lighting.component').then(
+        c => c.LightingComponent
+      ),
+    canActivate: [AuthGuard],
+    title: 'Lighting',
+  },
+  {
     path: 'profile',
     loadComponent: () =>
       import('@pages/profile/profile.component').then(c => c.ProfileComponent),

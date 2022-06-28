@@ -2,6 +2,7 @@
 
 <eac-layout *ngIf="!isAuthRoute; else authRoute">
   <router-outlet></router-outlet>
+  <eac-slide-over></eac-slide-over>
 </eac-layout>
 <ng-template #authRoute>
   <router-outlet></router-outlet>
