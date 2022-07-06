@@ -1,17 +1,21 @@
+export enum BatteryStatusName {
+  ACTIVE = 'active',
+  DISABLED = 'disabled',
+  BREAKING = 'breaking',
+  HOLD = 'hold',
+  REPAIRING = 'repairing',
+}
+
 export interface Battery {
   id: number;
+  createdAt: string | Date;
   name: string;
   description: string;
   type: string;
   level: number;
-  location: {
-    city: string;
-    country: string;
-  };
   voltage: number;
   capacity: number;
   weight: number;
-  generating_power: number;
-  status: 'active' | 'disabled' | 'breaking' | 'hold' | 'repairing';
-  created_at: string;
+  generatingPower: number;
+  status: BatteryStatusName;
 }

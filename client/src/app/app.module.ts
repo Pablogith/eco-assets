@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { authReducer } from '@store/reducers/auth.reducers';
 import { SharedModule } from '@shared/shared.module';
 import { uiReducer } from '@store/reducers/ui.reducers';
+import { APP_CONFIG, APP_CONFIG_VALUE } from '@config/app.config';
 
 @NgModule({
   declarations: [AppComponent, LayoutComponent],
@@ -21,7 +22,12 @@ import { uiReducer } from '@store/reducers/ui.reducers';
     }),
     SharedModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_CONFIG,
+      useValue: APP_CONFIG_VALUE,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

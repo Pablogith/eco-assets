@@ -20,7 +20,9 @@ export class ProfileComponent {
     this.currentUserName$ = this.store.pipe(
       // @ts-ignore
       select(authFeatureKey),
-      map((state: AuthState) => state.user?.name),
+      map(
+        (state: AuthState) => `${state.user?.firstName} ${state.user?.lastName}`
+      ),
       map((name: string) => (name ? name : 'Guest'))
     );
   }

@@ -1,32 +1,41 @@
 import { Injectable } from '@angular/core';
 import { Battery } from '@features/battery/models';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { BaseHttpService } from '@core/classes';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BatteryService {
-  private _batteries: Battery[] = [
-    {
-      id: 1,
-      name: 'Battery 1',
-      description: 'Battery 1 description',
-      type: 'Type 1',
-      voltage: 12,
-      capacity: 100,
-      weight: 500,
-      status: 'active',
-      created_at: 'Created at 1',
-      location: {
-        city: 'Cracow',
-        country: 'Poland',
-      },
-      generating_power: 100,
-      level: 30,
-    },
-  ];
-
+export class BatteryService extends BaseHttpService {
   public getAll(): Observable<Battery[]> {
-    return of(this._batteries);
+    return this.http.get<Battery[]>(`${this.config.API_URL}batteries`, {
+      headers: this.headers,
+    });
+  }
+
+  public getById(id: Battery['id']): Observable<Battery> {
+    return this.http.get<Battery>(`${this.config.API_URL}batteries/${id}`, {
+      headers: this.headers,
+    });
+  }
+
+  public create(battery: Battery): Observable<Battery> {
+    return this.http.post<Battery>(`${this.config.API_URL}batteries`, battery, {
+      headers: this.headers,
+    });
+  }
+
+  public update(battery: Battery): Observable<Battery> {
+    return this.http.put<Battery>(
+      `${this.config.API_URL}batteries/${battery.id}`,
+      battery,
+      { headers: this.headers }
+    );
+  }
+
+  public delete(id: Battery['id']): Observable<Battery> {
+    return this.http.delete<Battery>(`${this.config.API_URL}batteries/${id}`, {
+      headers: this.headers,
+    });
   }
 }

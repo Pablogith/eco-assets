@@ -8,4 +8,5 @@ export interface UiState {
 
 export enum UiStateComponents {
   BatteryEditFormComponent = 'BatteryEditFormComponent',
+  BatteryCreateFormComponent = 'BatteryCreateFormComponent',
 }

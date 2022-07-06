@@ -7,9 +7,12 @@ import { select, Store } from '@ngrx/store';
 import { UiState, UiStateComponents } from '@store/models/uiState';
 import { delay, map, Observable } from 'rxjs';
 import { uiFeatureKey } from '@store/reducers/ui.reducers';
-import { closeOverlay } from '@store/actions/ui.actions';
+import { closeOverlay } from '@store/actions/ui.action';
 import { DynamicDirective } from '@shared/dynamic/dynamic.directive';
-import { BatteryEditFormComponent } from '@features/battery/components';
+import {
+  BatteryCreateFormComponent,
+  BatteryEditFormComponent,
+} from '@features/battery/components';
 
 @Component({
   selector: 'eac-slide-over',
@@ -45,6 +48,10 @@ export class SlideOverComponent implements OnInit {
         state.overlay.component === UiStateComponents.BatteryEditFormComponent
       ) {
         this.loadBatteryEditFormComponent();
+      } else if (
+        state.overlay.component === UiStateComponents.BatteryCreateFormComponent
+      ) {
+        this.loadBatteryCreateFormComponent();
       }
     });
   }
@@ -60,6 +67,16 @@ export class SlideOverComponent implements OnInit {
     const componentRef =
       viewContainerRef.createComponent<BatteryEditFormComponent>(
         BatteryEditFormComponent
+      );
+  }
+
+  private loadBatteryCreateFormComponent(): void {
+    const viewContainerRef = this.dynamicHost.viewContainerRef;
+    viewContainerRef.clear();
+
+    const componentRef =
+      viewContainerRef.createComponent<BatteryCreateFormComponent>(
+        BatteryCreateFormComponent
       );
   }
 }

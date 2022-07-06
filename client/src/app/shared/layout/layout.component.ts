@@ -29,7 +29,10 @@ export class LayoutComponent {
     this.currentUser$ = this.store.pipe(
       // @ts-ignore
       select(authFeatureKey),
-      map((state: AuthState) => (state.user?.name ? state.user.name : 'Guest'))
+      map(
+        (state: AuthState) => `${state.user?.firstName} ${state.user?.lastName}`
+      ),
+      map((name: string) => (name ? name : 'Guest'))
     );
   }
 

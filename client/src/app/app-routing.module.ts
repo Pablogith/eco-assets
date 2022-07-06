@@ -34,6 +34,17 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
     title: 'Batteries',
+    children: [
+      {
+        path: 'details/:id',
+        loadComponent: () =>
+          import('@pages/batteries-details/batteries-details.component').then(
+            c => c.BatteriesDetailsComponent
+          ),
+        canActivate: [AuthGuard],
+        title: 'Batteries Details',
+      },
+    ],
   },
   {
     path: 'lighting',

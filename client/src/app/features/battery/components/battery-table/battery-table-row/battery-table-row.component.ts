@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Battery } from '@features/battery/models';
 import { Store } from '@ngrx/store';
-import { UiState, UiStateComponents } from '@store/models/uiState';
-import { openOverlay } from '@store/actions/ui.actions';
+import { UiStateComponents } from '@store/models/uiState';
+import { openOverlay } from '@store/actions/ui.action';
 
 @Component({
   selector: 'eac-battery-table-row',
@@ -11,8 +11,7 @@ import { openOverlay } from '@store/actions/ui.actions';
 })
 export class BatteryTableRowComponent {
   @Input() battery!: Battery;
-
-  constructor(private store: Store<UiState>) {}
+  private store = inject(Store);
 
   public openOverlay(): void {
     this.store.dispatch(

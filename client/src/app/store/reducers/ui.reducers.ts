@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { UiState } from '@store/models/uiState';
-import { closeOverlay, openOverlay } from '@store/actions/ui.actions';
+import { closeOverlay, openOverlay } from '@store/actions/ui.action';
 
 export const initialState = {
   overlay: {

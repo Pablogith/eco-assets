@@ -3,7 +3,7 @@
     {{ battery.id }}
   </td>
   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-    {{ battery.location.city }}, {{ battery.location.country }}
+    {{ battery.type }}
   </td>
   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
     <span
@@ -26,7 +26,7 @@
     </ng-template>
   </td>
   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-    {{ battery.generating_power | number: '1.2-2' }}
+    {{ battery.generatingPower | number: '1.2-2' }}
   </td>
   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
     {{ battery.level | number: '1.2-2' }}/{{
