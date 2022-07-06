@@ -1,51 +1,62 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+import { Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  private readonly users: any[] = [
-    {
-      id: 1,
-      name: 'John Doe',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-    },
-    {
-      id: 2,
-      name: 'Pablo Escobar',
-      email: 'pabloescobar@gmail.com',
-      password: '123456',
-    },
-    {
-      id: 3,
-      name: 'Enrique Iglesias',
-      email: 'enriqueeglesias@gmail.com',
-      password: '123456',
-    },
-  ];
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
 
-  public create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  public async create(
+    createUserDto: CreateUserDto,
+  ): Promise<CreateUserDto & User> {
+    return this.userRepository.save(createUserDto);
   }
 
-  public findAll() {
-    return `This action returns all users`;
+  public async findAll(): Promise<User[]> {
+    return this.userRepository.find();
   }
 
-  public findOneById(id: number) {
-    return `This action returns a #${id} user`;
+  public findAllBatteries(id: User['id']): Promise<User> {
+    const options = {
+      where: { id },
+      relations: ['batteries'],
+    };
+    return this.userRepository.findOne(options);
   }
 
-  public findOneByEmail(email: string) {
-    return this.users.find((user) => user.email === email);
+  public async findOneById(id: User['id']): Promise<User> {
+    const options = {
+      where: { id },
+    };
+    return this.userRepository.findOne(options);
   }
 
-  public update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  public async findOneByEmail(email: string): Promise<User> {
+    const options = {
+      where: { email },
+    };
+    return this.userRepository.findOne(options);
   }
 
-  public remove(id: number) {
-    return `This action removes a #${id} user`;
+  public async update(
+    id: User['id'],
+    updateUserDto: UpdateUserDto,
+  ): Promise<UpdateResult> {
+    return this.userRepository.update(id, updateUserDto);
+  }
+
+  public async remove(id: User['id']): Promise<void> {
+    const options = {
+      where: { id },
+    };
+    const user = await this.userRepository.findOne(options);
+    user.isDeleted = true;
+    await this.userRepository.save(user);
   }
 }
