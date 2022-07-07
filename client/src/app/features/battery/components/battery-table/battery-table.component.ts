@@ -14,7 +14,7 @@ import { UiStateComponents } from '@store/models/uiState';
 export class BatteryTableComponent implements OnInit {
   private batteryService = inject(BatteryService);
   private store = inject(Store);
-  public batteries$!: Observable<Battery[]>;
+  public batteries$!: Observable<Battery[]> | null;
 
   public ngOnInit(): void {
     this.batteries$ = this.batteryService.getAll();
@@ -27,5 +27,10 @@ export class BatteryTableComponent implements OnInit {
         component: UiStateComponents.BatteryCreateFormComponent,
       })
     );
+  }
+
+  public refresh(): void {
+    this.batteries$ = null;
+    this.batteries$ = this.batteryService.getAll();
   }
 }

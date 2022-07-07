@@ -304,27 +304,27 @@
               tabindex="-1"
               role="listbox"
               aria-labelledby="listbox-label">
-              <li *ngFor="let s of status"
-                (click)="setStatus(s)"
+              <li *ngFor="let status of status$ | async"
+                (click)="setStatus(status?.status, status?.id)"
                 class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:cursor-pointer hover:bg-gray-50 transition"
                 role="option">
                 <div class="flex items-center">
                   <span
                     [ngClass]="{
-                      'bg-green-400': s === 'active',
-                      'bg-blue-400': s === 'hold',
-                      'bg-yellow-400': s === 'repairing',
-                      'bg-red-400': s === 'breaking',
-                      'bg-gray-400': s === 'disabled'
+                      'bg-green-400': status?.status === 'active',
+                      'bg-blue-400': status?.status === 'hold',
+                      'bg-yellow-400': status?.status === 'repairing',
+                      'bg-red-400': status?.status === 'breaking',
+                      'bg-gray-400': status?.status === 'disabled'
                     }"
                     class="bg-yellow-400 flex-shrink-0 inline-block h-2 w-2 rounded-full"
                     aria-hidden="true"></span>
                   <span class="font-normal ml-3 block truncate"
-                        [class.font-semibold]="currentSelectedStatus === s">
-                    {{ s | titlecase }}
+                        [class.font-semibold]="currentSelectedStatus === status?.status">
+                    {{ status?.status | titlecase }}
                   </span>
                 </div>
-                <span *ngIf="currentSelectedStatus === s"
+                <span *ngIf="currentSelectedStatus === status?.status"
                   class="text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4">
                   <svg
                     class="h-5 w-5"

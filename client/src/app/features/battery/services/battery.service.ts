@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Battery } from '@features/battery/models';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { BaseHttpService } from '@core/classes';
 
 @Injectable({
@@ -20,9 +20,11 @@ export class BatteryService extends BaseHttpService {
   }
 
   public create(battery: Battery): Observable<Battery> {
-    return this.http.post<Battery>(`${this.config.API_URL}batteries`, battery, {
-      headers: this.headers,
-    });
+    return this.http
+      .post<{ battery: Battery }>(`${this.config.API_URL}batteries`, battery, {
+        headers: this.headers,
+      })
+      .pipe(map((response: { battery: Battery }) => response.battery));
   }
 
   public update(battery: Battery): Observable<Battery> {
@@ -37,5 +39,21 @@ export class BatteryService extends BaseHttpService {
     return this.http.delete<Battery>(`${this.config.API_URL}batteries/${id}`, {
       headers: this.headers,
     });
+  }
+
+  public getAllStatus(): Observable<Battery['status'][]> {
+    return this.http
+      .get<{ batteryStatus: Battery['status'][] }>(
+        `${this.config.API_URL}batteries/status`,
+        {
+          headers: this.headers,
+        }
+      )
+      .pipe(
+        map(
+          (response: { batteryStatus: Battery['status'][] }) =>
+            response.batteryStatus
+        )
+      );
   }
 }

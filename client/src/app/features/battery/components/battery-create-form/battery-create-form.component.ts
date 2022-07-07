@@ -1,12 +1,20 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, NgIterable, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { BatteryStatusName } from '@features/battery/models';
+import { Battery, BatteryStatusName } from '@features/battery/models';
 import { dropdownMenu } from '@features/battery/animations';
+import { BatteryService } from '@features/battery/services';
+import { NotificationsService } from '@core/services';
+import { select, Store } from '@ngrx/store';
+import { authFeatureKey } from '@store/reducers/auth.reducers';
+import { map, Observable, switchMap } from 'rxjs';
+import { closeOverlay } from '@store/actions/ui.action';
+
+type Status$ = Observable<Battery['status'][]> & NgIterable<string>;
 
 interface CreateBatteryForm {
   name: FormControl<string | null>;
@@ -17,7 +25,7 @@ interface CreateBatteryForm {
   capacity: FormControl<number | null>;
   weight: FormControl<number | null>;
   generatingPower: FormControl<number | null>;
-  status: FormControl<BatteryStatusName | null>;
+  statusId: FormControl<any>;
 }
 
 @Component({
@@ -27,18 +35,16 @@ interface CreateBatteryForm {
   animations: [dropdownMenu],
 })
 export class BatteryCreateFormComponent implements OnInit {
-  public status: string[] = [
-    'active',
-    'disabled',
-    'breaking',
-    'hold',
-    'repairing',
-  ];
+  public status$!: Status$;
 
   public statusDropdownIsOpen = false;
   public currentSelectedStatus: string = BatteryStatusName.ACTIVE;
   public form!: FormGroup<CreateBatteryForm>;
+
   private fb = inject(FormBuilder);
+  private batteryService = inject(BatteryService);
+  private notificationService = inject(NotificationsService);
+  private store = inject(Store);
 
   public ngOnInit(): void {
     this.form = this.fb.group<CreateBatteryForm>({
@@ -78,19 +84,55 @@ export class BatteryCreateFormComponent implements OnInit {
         Validators.min(0),
         Validators.max(100),
       ]),
-      status: this.fb.control(BatteryStatusName.DISABLED, [
+      statusId: this.fb.control(BatteryStatusName.DISABLED, [
         Validators.required,
       ]),
     });
+    this.status$ = this.batteryService.getAllStatus() as Status$;
   }
 
   public submit(): void {
-    console.log(this.form.value);
+    if (!this.form.valid) {
+      return;
+    }
+
+    this.store
+      .pipe(
+        select(authFeatureKey),
+        map(auth => auth.user.id),
+        switchMap(userId => {
+          const battery: Battery = {
+            ...this.form.value,
+            statusId: this.form.get('statusId')?.value,
+            userId,
+          } as Battery;
+          return this.batteryService.create(battery);
+        })
+      )
+      .subscribe({
+        next: (createdBattery: Battery) => {
+          this.store.dispatch(closeOverlay());
+          this.notificationService.show({
+            type: 'success',
+            message: `Battery ${createdBattery.name} created`,
+          });
+        },
+        error: err => {
+          if (err.status === 500)
+            this.notificationService.show({
+              type: 'error',
+              message: 'Something went wrong',
+            });
+        },
+      });
   }
 
-  public setStatus(status: string): void {
-    this.form.get('status')?.setValue(status as BatteryStatusName);
-    this.currentSelectedStatus = status;
+  public setStatus(
+    status: string | undefined,
+    statusId: string | undefined
+  ): void {
+    this.form.get('statusId')?.setValue(statusId);
+    this.currentSelectedStatus = status as string;
     this.statusDropdownIsOpen = false;
   }
 

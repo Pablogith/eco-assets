@@ -7,8 +7,8 @@ export enum BatteryStatusName {
 }
 
 export interface Battery {
-  id: number;
-  createdAt: string | Date;
+  id?: number;
+  createdAt?: string | Date;
   name: string;
   description: string;
   type: string;
@@ -17,5 +17,12 @@ export interface Battery {
   capacity: number;
   weight: number;
   generatingPower: number;
-  status: BatteryStatusName;
+  status?: {
+    status: BatteryStatusName;
+    createdAt: string | Date;
+    isDeleted: boolean;
+    id: string;
+  };
+  statusId?: string;
+  userId: string | null;
 }
