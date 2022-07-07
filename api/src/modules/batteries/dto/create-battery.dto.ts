@@ -4,6 +4,9 @@ export class CreateBatteryDto {
   @IsNotEmpty()
   name: string;
 
+  @IsNotEmpty()
+  userId: string;
+
   @IsOptional()
   description: string;
 

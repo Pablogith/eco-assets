@@ -37,9 +37,18 @@ export class Battery extends BaseEntity {
   @ManyToOne(
     () => BatteryStatus,
     (batteryStatus: BatteryStatus) => batteryStatus.status,
+    {
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+      nullable: true,
+    },
   )
   status: BatteryStatus;
 
   @ManyToOne(() => User, (user: User) => user.batteries)
   user: User;
+
+  constructor() {
+    super();
+  }
 }

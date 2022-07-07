@@ -15,28 +15,38 @@ import { UpdateBatteryDto } from './dto/update-battery.dto';
 export class BatteriesController {
   constructor(private readonly batteriesService: BatteriesService) {}
 
+  @Get('status')
+  public async findAllBatteryStatus() {
+    const status = await this.batteriesService.findAllBatteryStatus();
+    return { batteryStatus: status };
+  }
+
   @Post()
-  create(@Body() createBatteryDto: CreateBatteryDto) {
-    return this.batteriesService.create(createBatteryDto);
+  public async create(@Body() createBatteryDto: CreateBatteryDto) {
+    const battery = await this.batteriesService.create(createBatteryDto);
+    return { battery };
   }
 
   @Get()
-  findAll() {
+  public async findAll() {
     return this.batteriesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  public async findOne(@Param('id') id: string) {
     return this.batteriesService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBatteryDto: UpdateBatteryDto) {
+  public async update(
+    @Param('id') id: string,
+    @Body() updateBatteryDto: UpdateBatteryDto,
+  ) {
     return this.batteriesService.update(id, updateBatteryDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  public async remove(@Param('id') id: string) {
     return this.batteriesService.remove(id);
   }
 }
