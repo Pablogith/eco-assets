@@ -29,6 +29,7 @@ export class BatteriesService {
   public async findAll(): Promise<Battery[]> {
     const options = {
       where: { isDeleted: false },
+      relations: ['status', 'user'],
     };
     return this.batteryRepository.find(options);
   }
