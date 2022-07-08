@@ -1,3 +1,5 @@
+import { User } from '@core/models';
+
 export enum BatteryStatusName {
   ACTIVE = 'active',
   DISABLED = 'disabled',
@@ -24,5 +26,6 @@ export interface Battery {
     id: string;
   };
   statusId?: string;
-  userId: string | null;
+  userId?: string | null;
+  user?: User;
 }

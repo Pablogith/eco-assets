@@ -3,6 +3,7 @@ export interface UiState {
     isOpen: boolean;
     title: string;
     component: UiStateComponents | null;
+    data?: any;
   };
 }
 

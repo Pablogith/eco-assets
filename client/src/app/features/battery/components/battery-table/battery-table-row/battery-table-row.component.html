@@ -1,22 +1,22 @@
 <tr>
   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-    {{ battery.id }}
+    {{ battery.name }}
   </td>
   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
     {{ battery.type }}
   </td>
   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
     <span
-      *ngIf="battery.status; else unknownBatteryStatus"
+      *ngIf="status; else unknownBatteryStatus"
       [ngClass]="{
-        active: battery.status === 'active',
-        disabled: battery.status === 'disabled',
-        breaking: battery.status === 'breaking',
-        hold: battery.status === 'hold',
-        repairing: battery.status === 'repairing'
+        active: status.status === 'active',
+        disabled: status.status === 'disabled',
+        breaking: status.status === 'breaking',
+        hold: status.status === 'hold',
+        repairing: status.status === 'repairing'
       }"
       class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
-      {{ battery.status | titlecase }}
+      {{ status.status | titlecase }}
     </span>
     <ng-template #unknownBatteryStatus>
       <span

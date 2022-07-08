@@ -13,11 +13,18 @@ export class BatteryTableRowComponent {
   @Input() battery!: Battery;
   private store = inject(Store);
 
+  public get status(): Battery['status'] {
+    return this.battery.status;
+  }
+
   public openOverlay(): void {
     this.store.dispatch(
       openOverlay({
         title: 'Edit Battery',
         component: UiStateComponents.BatteryEditFormComponent,
+        data: {
+          battery: this.battery,
+        },
       })
     );
   }

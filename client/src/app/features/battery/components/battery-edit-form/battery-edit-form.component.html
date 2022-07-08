@@ -1,4 +1,5 @@
 <div class="flex-1 flex flex-col justify-between">
+  <form [formGroup]="form">
   <div class="px-4 divide-y divide-gray-200 sm:px-6">
     <div class="space-y-6 pt-6 pb-5">
       <div>
@@ -9,6 +10,7 @@
         </label>
         <div class="mt-1">
           <input
+            formControlName="name"
             type="text"
             name="battery-name"
             id="battery-name"
@@ -23,22 +25,11 @@
         </label>
         <div class="mt-1">
           <textarea
+            formControlName="description"
             id="description"
             name="description"
             rows="4"
             class="block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md transition"></textarea>
-        </div>
-      </div>
-      <div>
-        <label for="location" class="block text-sm font-medium text-gray-900">
-          Location
-        </label>
-        <div class="mt-1">
-          <input
-            type="text"
-            name="location"
-            id="location"
-            class="block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md transition" />
         </div>
       </div>
       <div>
@@ -269,4 +260,5 @@
       </button>
     </div>
   </div>
+  </form>
 </div>

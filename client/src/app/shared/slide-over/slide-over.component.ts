@@ -47,7 +47,8 @@ export class SlideOverComponent implements OnInit {
       if (
         state.overlay.component === UiStateComponents.BatteryEditFormComponent
       ) {
-        this.loadBatteryEditFormComponent();
+        const data = state.overlay.data ? state.overlay.data.battery : null;
+        this.loadBatteryEditFormComponent(data);
       } else if (
         state.overlay.component === UiStateComponents.BatteryCreateFormComponent
       ) {
@@ -60,7 +61,7 @@ export class SlideOverComponent implements OnInit {
     this.store.dispatch(closeOverlay());
   }
 
-  private loadBatteryEditFormComponent(): void {
+  private loadBatteryEditFormComponent(data: any | null): void {
     const viewContainerRef = this.dynamicHost.viewContainerRef;
     viewContainerRef.clear();
 
@@ -68,6 +69,7 @@ export class SlideOverComponent implements OnInit {
       viewContainerRef.createComponent<BatteryEditFormComponent>(
         BatteryEditFormComponent
       );
+    componentRef.instance.battery = data;
   }
 
   private loadBatteryCreateFormComponent(): void {
